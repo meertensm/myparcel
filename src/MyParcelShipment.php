@@ -42,6 +42,11 @@ class MyParcelShipment{
         ]
     ];
     
+    /**
+     * Init the client
+     * @param string $user   username
+     * @param string $apiKey apikey
+     */
     public function __construct($user, $apiKey){
         
         if (!$user) {
@@ -55,15 +60,24 @@ class MyParcelShipment{
         
     }
     
+    /**
+     * Should this schipment be a letterboxparcel? (Brievenbuspakje)
+     * @param boolean $bool 
+     */
     public function setLetterBoxParcel($bool)
     {
-        if( $bool == true ){
+        if ($bool == true) {
             $this->message['consignment']['shipment_type'] = 'letterbox';    
         } else {
             $this->message['consignment']['shipment_type'] = 'standard';        
         }
     }
     
+    /**
+     * Set the productcode
+     * @param string  $key   productcode
+     * @param boolean $value 
+     */
     public function setProductCode($key, $value)
     {
         if (array_key_exists($key, $this->message['consignment']['ProductCode'])) {
@@ -73,16 +87,28 @@ class MyParcelShipment{
         } 
     }
     
+    /**
+     * Set the insured amount
+     * @param float $amount 
+     */
     public function setInsuredAmount($amount)
     {
         $this->message['consignment']['insured_amount'] = $amount;
     }
-        
+     
+    /**
+     * Set the shipment's reference
+     * @param string $reference 
+     */
     public function setReference($reference)
     {
         $this->message['consignment']['custom_id'] = $reference;
     }
     
+    /**
+     * Submit the shipment to the myparcel webservice
+     * @return boolean on success
+     */
     public function ship()
     {
         if ($this->message['consignment']['ProductCode']['insured'] === 1) {
@@ -135,6 +161,10 @@ class MyParcelShipment{
         
     }
     
+    /**
+     * Get the label-pdf and tracking information
+     * @return array 
+     */
     public function getLabel()
     {
         
@@ -188,6 +218,10 @@ class MyParcelShipment{
         
     }
      
+    /**
+     * Set the receiver's address
+     * @param array $array address
+     */
     public function setAddress(array $array)
     {
         foreach ($array as $key => $value) {
